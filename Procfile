@@ -1,0 +1,1 @@
+web: python fairy_line_bot.py
