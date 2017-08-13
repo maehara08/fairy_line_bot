@@ -21,15 +21,16 @@ LINE_HEADERS = {
 
 
 def generate_text(text):
-    content = []
+    content = ""
     if FAIRY_STRING in text:
         if schedule in text and register in text:
             # 予定を登録
-            content.append("登録フォーム\n https://goo.gl/forms/fjoodUy89O0BFFqv1")
+            content = "登録フォーム\n https://goo.gl/forms/fjoodUy89O0BFFqv1"
+            c
         else:
-            content.append("呼んだ？")
+            content = "呼んだ？"
     else:
-        content.append(text)
+        content = text
     return content
 
 
@@ -41,6 +42,7 @@ def postMessage(replyToken, text):
         'Authorization': 'Bearer ' + LINE_HEADERS['X-Line-Trusted-User-With-ACL']
     }
     r = requests.post(REPRY_ENDPOINT, data=json.dumps(reply), headers=headers)
+    print(r.text)
 
 
 @app.route('/webhook', methods=['POST'])
