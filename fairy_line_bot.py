@@ -28,7 +28,10 @@ def postMessage(replyToken, text):
 def webhook():
     events = request.json["events"]
     for event in events:
+        app.logger.debug("event:" + events)
         replyToken = event["replyToken"]
+        app.logger.debug("replytoken:" + replyToken)
+
         if event['message']['type'] == 'text':
             text = event['message']['type']['text']
             postMessage(replyToken, text)
