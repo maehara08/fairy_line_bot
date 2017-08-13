@@ -11,6 +11,7 @@ REPRY_ENDPOINT = 'https://api.line.me/v2/bot/message/reply'
 FAIRY_STRING = '妖精'
 schedule = "予定"
 register = "登録"
+tano = "たの"
 
 LINE_HEADERS = {
     'Content-type': 'application/json; charset=UTF-8',
@@ -28,6 +29,8 @@ def generate_text(text):
             content = "登録フォーム\n https://goo.gl/forms/fjoodUy89O0BFFqv1"
         else:
             content = "呼んだ？"
+    elif tano in text:
+        content = "かわいい"
     else:
         content = text
     return content
