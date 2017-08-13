@@ -26,7 +26,6 @@ def generate_text(text):
         if schedule in text and register in text:
             # 予定を登録
             content = "登録フォーム\n https://goo.gl/forms/fjoodUy89O0BFFqv1"
-            c
         else:
             content = "呼んだ？"
     else:
