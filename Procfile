@@ -1,1 +1,1 @@
-web: python fairy_line_bot.py
+web: gunicorn fairy_line_bot:app --log-file=-
