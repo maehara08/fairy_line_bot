@@ -20,11 +20,12 @@ def postMessage(replyToken, text):
     reply = {'replyToken': replyToken, 'messages': textResponse}
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer {' + LINE_HEADERS['X-Line-Trusted-User-With-ACL'] + '}'
+        'Authorization': 'Bearer ' + LINE_HEADERS['X-Line-Trusted-User-With-ACL']
     }
     print(headers)
     r = requests.post(REPRY_ENDPOINT, headers=headers, data=reply)
     print(r)
+    print(r.text)
 
 
 @app.route('/webhook', methods=['POST'])
