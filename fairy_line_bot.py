@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -15,13 +16,13 @@ LINE_HEADERS = {
 
 
 def postMessage(replyToken, text):
-    textResponse = {'type': 'text', 'text': text}
+    textResponse = [{'type': 'text', 'text': text}]
     reply = {'replyToken': replyToken, 'messages': textResponse}
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {}'.format(LINE_HEADERS['X-Line-Trusted-User-With-ACL'])
     }
-    requests.post(REPRY_ENDPOINT, headers=headers, data=reply)
+    requests.post(REPRY_ENDPOINT, headers=headers, data=json.dump(reply))
 
 
 @app.route('/webhook', methods=['POST'])
@@ -40,6 +41,7 @@ def webhook():
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
 
 if __name__ == '__main__':
     app.run()
