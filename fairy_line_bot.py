@@ -28,14 +28,10 @@ def postMessage(replyToken, text):
 def webhook():
     events = request.json["events"]
     for event in events:
-        print("events")
-        print(events)
         replyToken = event["replyToken"]
-        print("replytoken")
-        print(replyToken)
 
         if event['message']['type'] == 'text':
-            text = event['message']['type']['text']
+            text = event['message']['text']
             postMessage(replyToken, text)
 
     return ''
@@ -44,7 +40,6 @@ def webhook():
 @app.route('/')
 def hello_world():
     return 'Hello World!'
-
 
 if __name__ == '__main__':
     app.run()
