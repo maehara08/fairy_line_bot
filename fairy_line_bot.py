@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ def postMessage(replyToken, text):
         'Authorization': 'Bearer ' + LINE_HEADERS['X-Line-Trusted-User-With-ACL']
     }
     print(headers)
-    r = requests.post(REPRY_ENDPOINT, data=reply, headers=headers)
+    r = requests.post(REPRY_ENDPOINT, data=json.dumps(reply), headers=headers)
     print(r)
     print(r.text)
 
