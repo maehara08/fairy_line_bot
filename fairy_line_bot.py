@@ -20,8 +20,9 @@ def postMessage(replyToken, text):
     reply = {'replyToken': replyToken, 'messages': textResponse}
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer {}'.format(LINE_HEADERS['X-Line-Trusted-User-With-ACL'])
+        'Authorization': 'Bearer {' + LINE_HEADERS['X-Line-Trusted-User-With-ACL'] + '}'
     }
+    print(headers)
     r = requests.post(REPRY_ENDPOINT, headers=headers, data=reply)
     print(r)
 
@@ -34,6 +35,7 @@ def webhook():
 
         if event['message']['type'] == 'text':
             text = event['message']['text']
+            print("text" + text)
             postMessage(replyToken, text)
 
     return ''
