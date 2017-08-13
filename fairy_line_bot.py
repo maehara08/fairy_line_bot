@@ -22,7 +22,8 @@ def postMessage(replyToken, text):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {}'.format(LINE_HEADERS['X-Line-Trusted-User-With-ACL'])
     }
-    requests.post(REPRY_ENDPOINT, headers=headers, data=json.dump(reply))
+    r = requests.post(REPRY_ENDPOINT, headers=headers, data=reply)
+    print(r)
 
 
 @app.route('/webhook', methods=['POST'])
