@@ -3,11 +3,19 @@
 import os
 from flask import Flask, request
 import requests
+import redis
 import json
 
 app = Flask(__name__)
 
+docomoApiKey = os.environ['DOCOMO_API_KEY']
+REDIS_URL = os.environ['REDIS_URL']
+RedisKey = "context_key"
+
 REPRY_ENDPOINT = 'https://api.line.me/v2/bot/message/reply'
+docomo_endpoint = 'https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue?APIKEY=REGISTER_KEY'
+docomo_url = docomo_endpoint.replace('REGISTER_KEY', docomoApiKey)
+
 FAIRY_STRING = '妖精'
 schedule = "予定"
 register = "登録"
@@ -19,6 +27,13 @@ LINE_HEADERS = {
     'X-Line-ChannelSecret': os.environ['ChannelSecret'],
     'X-Line-Trusted-User-With-ACL': os.environ['MID']
 }
+
+# データベースの指定
+DATABASE_INDEX = 1  # 0じゃなくあえて1
+# コネクションプールから１つ取得
+pool = redis.ConnectionPool.from_url(REDIS_URL, db=DATABASE_INDEX)
+# コネクションを利用
+redisConnection = redis.StrictRedis(connection_pool=pool)
 
 
 def generate_text(text):
@@ -32,7 +47,14 @@ def generate_text(text):
     elif tano in text:
         content = "かわいい"
     else:
-        content = text
+        payload = {'utt': text, 'context': redisConnection.get(RedisKey)}
+        headers = {'Content-type': 'application/json'}
+
+        r = requests.post(docomo_url, data=json.dumps(payload), headers=headers)
+        data = r.json()
+        content = data['utt']
+        context = data['context']
+        redisConnection.set(RedisKey, context)
     return content
 
 

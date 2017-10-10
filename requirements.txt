@@ -8,6 +8,7 @@ itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
 numpy==1.11.2
+redis==2.10.6
 requests==2.18.3
 urllib3==1.22
 Werkzeug==0.12.2
